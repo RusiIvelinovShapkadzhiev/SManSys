@@ -4,9 +4,9 @@ namespace Domain
 {
     public class Salutation
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public Guid TeacherId { get; set; }
-        public virtual Teacher Teacher { get; set; }
+        public string TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
     }
 }

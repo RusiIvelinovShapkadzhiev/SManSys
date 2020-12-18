@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201218120908_Initial migration. Skeleton of the database entities was provided")]
+    partial class InitialmigrationSkeletonofthedatabaseentitieswasprovided
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,13 +193,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Parent", "Parent")
                         .WithMany("ParentChildren")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Student", "Student")
                         .WithMany("ParentChildren")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Parent");
@@ -210,13 +212,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.MeetingRequest", "MeetingRequest")
                         .WithMany("ParentMeetingsRequests")
                         .HasForeignKey("MeetingRequestId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Parent", "Parent")
                         .WithMany("ParentMeetingsRequests")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("MeetingRequest");
@@ -247,13 +249,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.MeetingRequest", "MeetingRequest")
                         .WithMany("TeacherMeetingsRequests")
                         .HasForeignKey("MeetingRequestId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Teacher", "Teacher")
                         .WithMany("TeacherMeetingsRequests")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("MeetingRequest");
@@ -266,13 +268,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Grade", "Grade")
                         .WithMany("TeachersGrades")
                         .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Teacher", "Teacher")
                         .WithMany("TeacherGrades")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Grade");
