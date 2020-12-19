@@ -1,3 +1,5 @@
+using Application.Teachers;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,7 @@ namespace API
                 options.UseSqlite(Configuration
                     .GetConnectionString("DefaultConnection"));
             });
+            services.AddMediatR(typeof(OwnStudentsList.Handler).Assembly);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
