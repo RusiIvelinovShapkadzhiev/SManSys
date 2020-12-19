@@ -19,6 +19,10 @@ namespace Persistence
         public DbSet<ParentChildren> ParentChildrens { get; set; }
         public DbSet<TeacherMeetingsRequests> TeacherMeetingsRequests { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Absense> Absences { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<Comment> Commnets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

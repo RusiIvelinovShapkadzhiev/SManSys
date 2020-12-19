@@ -13,6 +13,103 @@ namespace Persistence
         public static async Task SeedData(DataContext context)
         // ,UserManager<AppUser> userManager)
         {
+            if(!context.Absences.Any())
+            {
+                var absences = new List<Absense>
+                {
+                    new Absense
+                    {
+                        Id = "a",
+                        Reason = "Sick leave",
+                        StartDate = DateTime.Now.AddDays(2),
+                        EndDate = DateTime.Now.AddDays(7),
+                        Notes = "It is normal fly",
+                        StudentId = "a",
+                        ParentId = "a"
+                    },
+                     new Absense
+                    {
+                        Id = "b",
+                        Reason = "Leave abroad",
+                        StartDate = DateTime.Now.AddDays(2),
+                        EndDate = DateTime.Now.AddDays(7),
+                        Notes = "Going to France",
+                        StudentId = "a",
+                        ParentId = "b"
+                    }
+                };
+
+                await context.Absences.AddRangeAsync(absences);
+                await context.SaveChangesAsync();
+            }
+            if(!context.MeetingRequests.Any())
+            {
+                var requests = new List<MeetingRequest>
+                {
+                    new MeetingRequest
+                    {
+                        Id = "a",
+                        Title = "Discipline",
+                        StartDate = DateTime.Now.AddDays(5),
+                        EndDate = DateTime.Now.AddDays(5).AddHours(1)
+                    },
+                    new MeetingRequest
+                    {
+                        Id = "d",
+                        Title = "Sport",
+                        StartDate = DateTime.Now.AddDays(5),
+                        EndDate = DateTime.Now.AddDays(5).AddHours(1)
+                    },
+                    new MeetingRequest
+                    {
+                        Id = "b",
+                        Title = "English",
+                        StartDate = DateTime.Now.AddDays(5),
+                        EndDate = DateTime.Now.AddDays(5).AddHours(1)
+                    },
+                    new MeetingRequest
+                    {
+                        Id = "c",
+                        Title = "Absence",
+                        StartDate = DateTime.Now.AddDays(5),
+                        EndDate = DateTime.Now.AddDays(5).AddHours(1)
+                    }
+                };
+
+                await context.MeetingRequests.AddRangeAsync(requests);
+                await context.SaveChangesAsync();
+            }
+
+            // if(!context.Conversations.Any())
+            // {
+            //     var conversations = new List<Conversation>
+            //     {
+            //         new Conversation
+            //         {
+            //             Id = "a",
+            //             Title = "Ivan Discipline",
+            //             MeetingRequestId = "a",
+            //             Teachers = new List<Teacher>
+            //             {
+
+            //             },
+            //             ParentId = "a"
+            //         },
+            //          new Absense
+            //         {
+            //             Id = "b",
+            //             Reason = "Leave abroad",
+            //             StartDate = DateTime.Now.AddDays(2),
+            //             EndDate = DateTime.Now.AddDays(7),
+            //             Notes = "Going to France",
+            //             StudentId = "a",
+            //             ParentId = "b"
+            //         }
+            //     };
+
+            //     await context.Absences.AddRangeAsync(absences);
+            //     await context.SaveChangesAsync();
+            // }
             if(!context.Teachers.Any())
             {
                 var teachers = new List<Teacher>
@@ -28,14 +125,36 @@ namespace Persistence
                     {
                         TeacherId = "b",
                         Name = "Victoria Ivanova",
-                        IsActive = true
+                        IsActive = true,
+                        TeacherMeetingsRequests = new List<TeacherMeetingsRequests>
+                        {
+                            new TeacherMeetingsRequests
+                            {
+                                MeetingRequestId = "d"
+                            },
+                            new TeacherMeetingsRequests
+                            {
+                                MeetingRequestId = "c"
+                            }
+                        }
                     },
 
                     new Teacher
                     {
                         TeacherId = "c",
                         Name = "Stoyan Simov",
-                        IsActive = true
+                        IsActive = true,
+                        TeacherMeetingsRequests = new List<TeacherMeetingsRequests>
+                        {
+                            new TeacherMeetingsRequests
+                            {
+                                MeetingRequestId = "a"
+                            },
+                            new TeacherMeetingsRequests
+                            {
+                                MeetingRequestId = "b"
+                            }
+                        }
                     },
                 };
 
@@ -120,12 +239,34 @@ namespace Persistence
                     new Parent 
                     {
                         Id = "a",
-                        Name = "Kaloyan Kaloyanov"
+                        Name = "Kaloyan Kaloyanov",
+                        ParentMeetingsRequests = new List<ParentMeetingsRequests>
+                        {
+                            new ParentMeetingsRequests
+                            {
+                                MeetingRequestId = "a"
+                            },
+                            new ParentMeetingsRequests
+                            {
+                                MeetingRequestId = "b"
+                            },
+                        }
                     },
                     new Parent 
                     {
                         Id = "b",
-                        Name = "Desislava Ivanova"
+                        Name = "Desislava Ivanova",
+                        ParentMeetingsRequests = new List<ParentMeetingsRequests>
+                        {
+                            new ParentMeetingsRequests
+                            {
+                                MeetingRequestId = "d"
+                            },
+                            new ParentMeetingsRequests
+                            {
+                                MeetingRequestId = "c"
+                            },
+                        }
                     }
                 };
 

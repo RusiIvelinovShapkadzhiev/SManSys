@@ -7,7 +7,11 @@ namespace Domain
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
         public ICollection<ParentChildren> ParentChildren { get; set; }
         public ICollection<ParentMeetingsRequests> ParentMeetingsRequests { get; set; }
+        public ICollection<ParentConversations> ParentsConversations { get; set; }
+        public ICollection<Absense> Absence {get; set; }
     }
 }

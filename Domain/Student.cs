@@ -11,5 +11,7 @@ namespace Domain
         public Grade Grade { get; set; }
         public bool IsActive { get; set; }
         public ICollection<ParentChildren> ParentChildren { get; set; }
+        public ICollection<MeetingRequest> MeetingRequests { get; set; }
+        public ICollection<Absense> Absence {get; set; }
     }
 }

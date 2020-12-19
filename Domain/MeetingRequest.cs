@@ -7,6 +7,8 @@ namespace Domain
     {
         public string Id { get; set; }
         public string Title { get; set; }
+        public string StudentId { get; set; }
+        public Student Student { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public ICollection<TeacherMeetingsRequests> TeacherMeetingsRequests { get; set; }
