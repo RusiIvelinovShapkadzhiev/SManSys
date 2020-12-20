@@ -9,7 +9,7 @@ namespace Domain
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ICollection<TeachersGrades> TeachersGrades { get; set; }
+        public ICollection<TeacherGrades> TeacherGrades { get; set; }
         public ICollection<Student> Students { get; set; }
     }
 }

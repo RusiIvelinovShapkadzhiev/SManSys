@@ -13,35 +13,6 @@ namespace Persistence
         public static async Task SeedData(DataContext context)
         // ,UserManager<AppUser> userManager)
         {
-            if(!context.Absences.Any())
-            {
-                var absences = new List<Absense>
-                {
-                    new Absense
-                    {
-                        Id = "a",
-                        Reason = "Sick leave",
-                        StartDate = DateTime.Now.AddDays(2),
-                        EndDate = DateTime.Now.AddDays(7),
-                        Notes = "It is normal fly",
-                        StudentId = "a",
-                        ParentId = "a"
-                    },
-                     new Absense
-                    {
-                        Id = "b",
-                        Reason = "Leave abroad",
-                        StartDate = DateTime.Now.AddDays(2),
-                        EndDate = DateTime.Now.AddDays(7),
-                        Notes = "Going to France",
-                        StudentId = "a",
-                        ParentId = "b"
-                    }
-                };
-
-                await context.Absences.AddRangeAsync(absences);
-                await context.SaveChangesAsync();
-            }
             if(!context.MeetingRequests.Any())
             {
                 var requests = new List<MeetingRequest>
@@ -110,7 +81,7 @@ namespace Persistence
             //     await context.Absences.AddRangeAsync(absences);
             //     await context.SaveChangesAsync();
             // }
-            if(!context.Teachers.Any())
+                        if(!context.Teachers.Any())
             {
                 var teachers = new List<Teacher>
                 {
@@ -172,23 +143,23 @@ namespace Persistence
                         Name = "1st A",
                         StartDate = new DateTime(2020,9,15),
                         EndDate = new DateTime(2021,5,24),
-                        TeachersGrades = new List<TeachersGrades>
+                        TeacherGrades = new List<TeacherGrades>
                         {
-                            new TeachersGrades
+                            new TeacherGrades
                             {
                                 TeacherId = "a",
                                 IsTeaching = true
                                 
                             },
 
-                            new TeachersGrades
+                            new TeacherGrades
                             {
                                 TeacherId = "b",
                                 IsTeaching = true
                                 
                             },
 
-                            new TeachersGrades
+                            new TeacherGrades
                             {
                                 TeacherId = "c",
                                 IsTeaching = true
@@ -202,23 +173,23 @@ namespace Persistence
                         Name = "1st B",
                         StartDate = new DateTime(2020,9,15),
                         EndDate = new DateTime(2021,5,24),
-                        TeachersGrades = new List<TeachersGrades>
+                        TeacherGrades = new List<TeacherGrades>
                         {
-                            new TeachersGrades
+                            new TeacherGrades
                             {
                                 TeacherId = "a",
                                 IsTeaching = true
                                 
                             },
 
-                            new TeachersGrades
+                            new TeacherGrades
                             {
                                 TeacherId = "b",
                                 IsTeaching = true
                                 
                             },
 
-                            new TeachersGrades
+                            new TeacherGrades
                             {
                                 TeacherId = "c",
                                 IsTeaching = true
@@ -231,6 +202,7 @@ namespace Persistence
                 await context.Grades.AddRangeAsync(grades);
                 await context.SaveChangesAsync();
             }
+
 
             if(!context.Parents.Any())
             {
@@ -318,7 +290,35 @@ namespace Persistence
                 await context.Students.AddRangeAsync(students);
                 await context.SaveChangesAsync();
             }
-            
+             if(!context.Absences.Any())
+            {
+                var absences = new List<Absense>
+                {
+                    new Absense
+                    {
+                        Id = "a",
+                        Reason = "Sick leave",
+                        StartDate = DateTime.Now.AddDays(2),
+                        EndDate = DateTime.Now.AddDays(7),
+                        Notes = "It is normal fly",
+                        StudentId = "a",
+                        ParentId = "a"
+                    },
+                     new Absense
+                    {
+                        Id = "b",
+                        Reason = "Leave abroad",
+                        StartDate = DateTime.Now.AddDays(2),
+                        EndDate = DateTime.Now.AddDays(7),
+                        Notes = "Going to France",
+                        StudentId = "a",
+                        ParentId = "b"
+                    }
+                };
+
+                await context.Absences.AddRangeAsync(absences);
+                await context.SaveChangesAsync();
+            } 
         }
         
     }

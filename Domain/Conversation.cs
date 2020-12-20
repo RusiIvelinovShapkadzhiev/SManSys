@@ -10,7 +10,8 @@ namespace Domain
         public string MeetingRequestId { get; set; }
         public MeetingRequest MeetingRequest { get; set; }
         public ICollection<Teacher> Teachers { get; set; }
-        public ICollection<Parent> Parrents { get; set; }
+        public ICollection<ParentConversations> ParentConversations { get; set; }
+        public ICollection<TeachersConversations> TeachersConversations { get; set; }
         public ICollection<Comment> Comment { get; set; }
     }
 }

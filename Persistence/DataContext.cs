@@ -12,7 +12,7 @@ namespace Persistence
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Salutation> Salutaions { get; set; }
         public DbSet<Grade> Grades { get; set; }
-        public DbSet<TeachersGrades> TeacherGrades { get; set; }
+        public DbSet<TeacherGrades> TeacherGrades { get; set; }
         public DbSet<Parent> Parents { get; set; }
         public DbSet<MeetingRequest> MeetingRequests { get; set; }
         public DbSet<ParentMeetingsRequests> ParentMeetingRequests { get; set; }
@@ -23,21 +23,23 @@ namespace Persistence
         public DbSet<Absense> Absences { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<Comment> Commnets { get; set; }
+        public DbSet<ParentConversations> ParentConversations { get; set; }
+        public DbSet<TeachersConversations> TeachersConversations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<TeachersGrades>(x => x.HasKey(tc =>
+            builder.Entity<TeacherGrades>(x => x.HasKey(tc =>
                new {tc.TeacherId, tc.GradeId}));
-            builder.Entity<TeachersGrades>()
+            builder.Entity<TeacherGrades>()
                 .HasOne(t => t.Teacher)
                 .WithMany(c => c.TeacherGrades)
                 .HasForeignKey(t => t.TeacherId);
                 // .OnDelete(DeleteBehavior.NoAction);
-            builder.Entity<TeachersGrades>()
+            builder.Entity<TeacherGrades>()
                 .HasOne(c => c.Grade)
-                .WithMany(t => t.TeachersGrades)
+                .WithMany(t => t.TeacherGrades)
                 .HasForeignKey(c => c.GradeId);
                 // .OnDelete(DeleteBehavior.NoAction);
 
@@ -78,6 +80,32 @@ namespace Persistence
                 .HasOne(s => s.Student)
                 .WithMany(pc => pc.ParentChildren)
                 .HasForeignKey(s => s.StudentId);
+                // .OnDelete(DeleteBehavior.NoAction);
+            
+            builder.Entity<ParentConversations>(x => x.HasKey(pc =>
+                new {pc.ParentId, pc.ConversationId}));
+            builder.Entity<ParentConversations>()
+                .HasOne(p => p.Parent)
+                .WithMany(pc => pc.ParentConversations)
+                .HasForeignKey(p => p.ParentId);
+                // .OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<ParentConversations>()
+                .HasOne(c => c.Conversation)
+                .WithMany(pc => pc.ParentConversations)
+                .HasForeignKey(c => c.ConversationId);
+                // .OnDelete(DeleteBehavior.NoAction);
+            
+            builder.Entity<TeachersConversations>(x => x.HasKey(pc =>
+                new {pc.TeacherId, pc.ConversationId}));
+            builder.Entity<TeachersConversations>()
+                .HasOne(p => p.Teacher)
+                .WithMany(tc => tc.TeachersConversations)
+                .HasForeignKey(t => t.TeacherId);
+                // .OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<TeachersConversations>()
+                .HasOne(c => c.Conversation)
+                .WithMany(tc => tc.TeachersConversations)
+                .HasForeignKey(c => c.ConversationId);
                 // .OnDelete(DeleteBehavior.NoAction);
         }
     }

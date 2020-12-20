@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201220102634_TeachersGrades navigation table improvement")]
+    partial class TeachersGradesnavigationtableimprovement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,24 +263,6 @@ namespace Persistence.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("Domain.TeacherGrades", b =>
-                {
-                    b.Property<string>("TeacherId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GradeId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsTeaching")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("TeacherId", "GradeId");
-
-                    b.HasIndex("GradeId");
-
-                    b.ToTable("TeacherGrades");
-                });
-
             modelBuilder.Entity("Domain.TeacherMeetingsRequests", b =>
                 {
                     b.Property<string>("TeacherId")
@@ -307,6 +291,24 @@ namespace Persistence.Migrations
                     b.HasIndex("ConversationId");
 
                     b.ToTable("TeachersConversations");
+                });
+
+            modelBuilder.Entity("Domain.TeachersGrades", b =>
+                {
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GradeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsTeaching")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("TeacherId", "GradeId");
+
+                    b.HasIndex("GradeId");
+
+                    b.ToTable("TeachersGrades");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
@@ -470,25 +472,6 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.TeacherGrades", b =>
-                {
-                    b.HasOne("Domain.Grade", "Grade")
-                        .WithMany("TeacherGrades")
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Teacher", "Teacher")
-                        .WithMany("TeacherGrades")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Grade");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("Domain.TeacherMeetingsRequests", b =>
                 {
                     b.HasOne("Domain.MeetingRequest", "MeetingRequest")
@@ -527,6 +510,25 @@ namespace Persistence.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("Domain.TeachersGrades", b =>
+                {
+                    b.HasOne("Domain.Grade", "Grade")
+                        .WithMany("TeachersGrades")
+                        .HasForeignKey("GradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Teacher", "Teacher")
+                        .WithMany("TeacherGrades")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grade");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("Domain.Conversation", b =>
                 {
                     b.Navigation("Comment");
@@ -542,7 +544,7 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Students");
 
-                    b.Navigation("TeacherGrades");
+                    b.Navigation("TeachersGrades");
                 });
 
             modelBuilder.Entity("Domain.MeetingRequest", b =>

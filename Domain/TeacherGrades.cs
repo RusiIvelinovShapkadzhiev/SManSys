@@ -2,7 +2,7 @@ using System;
 
 namespace Domain
 {
-    public class TeachersGrades
+    public class TeacherGrades
     {
         public string TeacherId { get; set; }
         public Teacher Teacher { get; set; }
