@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201219165637_Try to improve base")]
-    partial class Trytoimprovebase
+    [Migration("20201220103653_Initial migration")]
+    partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,9 +137,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ConversationId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -147,8 +144,6 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConversationId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -169,6 +164,21 @@ namespace Persistence.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("ParentChildrens");
+                });
+
+            modelBuilder.Entity("Domain.ParentConversations", b =>
+                {
+                    b.Property<string>("ParentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConversationId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ParentId", "ConversationId");
+
+                    b.HasIndex("ConversationId");
+
+                    b.ToTable("ParentConversations");
                 });
 
             modelBuilder.Entity("Domain.ParentMeetingsRequests", b =>
@@ -234,9 +244,6 @@ namespace Persistence.Migrations
                     b.Property<string>("ConversationId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("GradeId")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
@@ -250,12 +257,28 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ConversationId");
 
-                    b.HasIndex("GradeId");
-
                     b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("Domain.TeacherGrades", b =>
+                {
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GradeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsTeaching")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("TeacherId", "GradeId");
+
+                    b.HasIndex("GradeId");
+
+                    b.ToTable("TeacherGrades");
                 });
 
             modelBuilder.Entity("Domain.TeacherMeetingsRequests", b =>
@@ -271,6 +294,21 @@ namespace Persistence.Migrations
                     b.HasIndex("MeetingRequestId");
 
                     b.ToTable("TeacherMeetingsRequests");
+                });
+
+            modelBuilder.Entity("Domain.TeachersConversations", b =>
+                {
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConversationId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("TeacherId", "ConversationId");
+
+                    b.HasIndex("ConversationId");
+
+                    b.ToTable("TeachersConversations");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
@@ -339,10 +377,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Parent", b =>
                 {
-                    b.HasOne("Domain.Conversation", null)
-                        .WithMany("Parrents")
-                        .HasForeignKey("ConversationId");
-
                     b.HasOne("Domain.User", "User")
                         .WithOne("Parent")
                         .HasForeignKey("Domain.Parent", "UserId");
@@ -367,6 +401,25 @@ namespace Persistence.Migrations
                     b.Navigation("Parent");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Domain.ParentConversations", b =>
+                {
+                    b.HasOne("Domain.Conversation", "Conversation")
+                        .WithMany("ParentConversations")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Parent", "Parent")
+                        .WithMany("ParentConversations")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Domain.ParentMeetingsRequests", b =>
@@ -412,15 +465,30 @@ namespace Persistence.Migrations
                         .WithMany("Teachers")
                         .HasForeignKey("ConversationId");
 
-                    b.HasOne("Domain.Grade", null)
-                        .WithMany("Teachers")
-                        .HasForeignKey("GradeId");
-
                     b.HasOne("Domain.User", "User")
                         .WithOne("Teacher")
                         .HasForeignKey("Domain.Teacher", "UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.TeacherGrades", b =>
+                {
+                    b.HasOne("Domain.Grade", "Grade")
+                        .WithMany("TeacherGrades")
+                        .HasForeignKey("GradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Teacher", "Teacher")
+                        .WithMany("TeacherGrades")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grade");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Domain.TeacherMeetingsRequests", b =>
@@ -442,20 +510,41 @@ namespace Persistence.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("Domain.TeachersConversations", b =>
+                {
+                    b.HasOne("Domain.Conversation", "Conversation")
+                        .WithMany("TeachersConversations")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Teacher", "Teacher")
+                        .WithMany("TeachersConversations")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("Domain.Conversation", b =>
                 {
                     b.Navigation("Comment");
 
-                    b.Navigation("Parrents");
+                    b.Navigation("ParentConversations");
 
                     b.Navigation("Teachers");
+
+                    b.Navigation("TeachersConversations");
                 });
 
             modelBuilder.Entity("Domain.Grade", b =>
                 {
                     b.Navigation("Students");
 
-                    b.Navigation("Teachers");
+                    b.Navigation("TeacherGrades");
                 });
 
             modelBuilder.Entity("Domain.MeetingRequest", b =>
@@ -470,6 +559,8 @@ namespace Persistence.Migrations
                     b.Navigation("Absence");
 
                     b.Navigation("ParentChildren");
+
+                    b.Navigation("ParentConversations");
 
                     b.Navigation("ParentMeetingsRequests");
                 });
@@ -487,7 +578,11 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Salutation");
 
+                    b.Navigation("TeacherGrades");
+
                     b.Navigation("TeacherMeetingsRequests");
+
+                    b.Navigation("TeachersConversations");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
